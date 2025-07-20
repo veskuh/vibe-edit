@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var leftText: String = ""
+    @EnvironmentObject var appModel: AppModel
     @State private var rightText: String = ""
     @State private var command: String = ""
     @State private var chatHistory: String = ""
@@ -11,16 +11,31 @@ struct ContentView: View {
     var body: some View {
         VStack {
             HSplitView {
-                TextEditor(text: $leftText)
+                TextEditor(text: $appModel.leftText)
                     .frame(minWidth: 200, idealWidth: 400, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: .infinity)
                     .padding(.top, 5)
+                    .fileImporter(
+                        isPresented: $appModel.showFileImporter,
+                        allowedContentTypes: [.plainText, .text],
+                        allowsMultipleSelection: false
+                    ) { result in
+                        do {
+                            let fileUrl = try result.get().first!
+                            guard fileUrl.startAccessingSecurityScopedResource() else { return }
+                            let fileContent = try String(contentsOf: fileUrl)
+                            appModel.leftText = fileContent
+                            fileUrl.stopAccessingSecurityScopedResource()
+                        } catch {
+                            print("Error reading file: \(error.localizedDescription)")
+                        }
+                    }
                 TextEditor(text: $rightText)
                     .frame(minWidth: 200, idealWidth: 400, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: .infinity)
                     .padding(.top, 5)
                     .opacity(isDiffMode ? 0 : 1)
                     .overlay(Group {
                         if isDiffMode {
-                            Text(generateDiff(original: leftText, modified: rightText))
+                            Text(generateDiff(original: appModel.leftText, modified: rightText))
                                 .font(.body.monospaced())
                                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                                 .padding(.all, 8)
@@ -35,7 +50,7 @@ struct ContentView: View {
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button(action: {
-                        self.leftText = self.rightText
+                        appModel.leftText = self.rightText
                     }) {
                         Text("Accept AI Text")
                     }
@@ -69,7 +84,7 @@ struct ContentView: View {
     }
     func sendToOllama() async {
         isBusy = true
-        let currentPrompt = "As AI assistant user, I need help with my text. First I'll tell you my request and then I'll tell you the text. Request is: \(command) And here is the text for you to edit as instructed: \(leftText)"
+        let currentPrompt = "As AI assistant user, I need help with my text. First I'll tell you my request and then I'll tell you the text. Request is: \(command) And here is the text for you to edit as instructed: \(appModel.leftText)"
         let fullPrompt = chatHistory + currentPrompt
         self.command = ""
         self.rightText = ""
