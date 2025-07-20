@@ -1,0 +1,19 @@
+
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build
+      run: xcodebuild build -scheme VibeEdit -destination 'platform=macOS' | xcpretty
+    - name: Test
+      run: xcodebuild test -scheme VibeEdit -destination 'platform=macOS' | xcpretty
