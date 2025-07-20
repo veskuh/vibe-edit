@@ -5,6 +5,7 @@ struct ContentView: View {
     @State private var rightText: String = ""
     @State private var command: String = ""
     @State private var chatHistory: String = ""
+    @State private var isBusy: Bool = false
 
     var body: some View {
         VStack {
@@ -14,10 +15,22 @@ struct ContentView: View {
                 TextEditor(text: $rightText)
                     .frame(minWidth: 200, idealWidth: 400, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: .infinity)
             }
+            .toolbar {
+                ToolbarItem(placement: .status) {
+                    if isBusy {
+                        ProgressView()
+                    }
+                }
+            }
             HStack {
                 Text("Ask AI:")
                 TextField("Enter your command here", text: $command)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .onSubmit {
+                        Task {
+                            await sendToOllama()
+                        }
+                    }
                 Button(action: {
                     Task {
                         await sendToOllama()
@@ -31,6 +44,7 @@ struct ContentView: View {
         }
     }
     func sendToOllama() async {
+        isBusy = true
         let currentPrompt = "As AI assistant user, I need help with my text. First I'll tell you my request and then I'll tell you the text. Request is: \(command) And here is the text for you to edit as instructed: \(leftText)"
         let fullPrompt = chatHistory + currentPrompt
         self.command = ""
@@ -69,6 +83,7 @@ struct ContentView: View {
         } catch {
             print("Error sending request to Ollama: \(error)")
         }
+        isBusy = false
     }
 }
 
