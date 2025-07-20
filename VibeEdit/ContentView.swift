@@ -6,14 +6,26 @@ struct ContentView: View {
     @State private var command: String = ""
     @State private var chatHistory: String = ""
     @State private var isBusy: Bool = false
+    @State private var isDiffMode: Bool = false
 
     var body: some View {
         VStack {
             HSplitView {
                 TextEditor(text: $leftText)
                     .frame(minWidth: 200, idealWidth: 400, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: .infinity)
+                    .padding(.top, 5)
                 TextEditor(text: $rightText)
                     .frame(minWidth: 200, idealWidth: 400, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: .infinity)
+                    .padding(.top, 5)
+                    .opacity(isDiffMode ? 0 : 1)
+                    .overlay(Group {
+                        if isDiffMode {
+                            Text(generateDiff(original: leftText, modified: rightText))
+                                .font(.body.monospaced())
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                                .padding(.all, 8)
+                        }
+                    })
             }
             .toolbar {
                 ToolbarItem(placement: .status) {
@@ -26,6 +38,11 @@ struct ContentView: View {
                         self.leftText = self.rightText
                     }) {
                         Text("Accept AI Text")
+                    }
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    Toggle(isOn: $isDiffMode) {
+                        Text("Diff Mode")
                     }
                 }
             }
@@ -91,6 +108,47 @@ struct ContentView: View {
             print("Error sending request to Ollama: \(error)")
         }
         isBusy = false
+    }
+    func generateDiff(original: String, modified: String) -> AttributedString {
+        var diff = AttributedString()
+        let originalLines = original.components(separatedBy: .newlines)
+        let modifiedLines = modified.components(separatedBy: .newlines)
+
+        // A simple line-by-line comparison for demonstration
+        // A real diff algorithm (e.g., Myers diff) would be more complex
+        var originalIndex = 0
+        var modifiedIndex = 0
+
+        while originalIndex < originalLines.count || modifiedIndex < modifiedLines.count {
+            if originalIndex < originalLines.count && modifiedIndex < modifiedLines.count {
+                if originalLines[originalIndex] == modifiedLines[modifiedIndex] {
+                    // Unchanged line
+                    diff.append(AttributedString("  " + originalLines[originalIndex] + "\n"))
+                    originalIndex += 1
+                    modifiedIndex += 1
+                } else {
+                    // Changed line
+                    var removedLine = AttributedString("-" + originalLines[originalIndex] + "\n")
+                    removedLine.foregroundColor = .red
+                    diff.append(removedLine)
+                    var addedLine = AttributedString("+" + modifiedLines[modifiedIndex] + "\n")
+                    addedLine.foregroundColor = .green
+                    diff.append(addedLine)
+                    originalIndex += 1
+                    modifiedIndex += 1
+                }
+            } else if originalIndex < originalLines.count {
+                // Line removed                var removedLine = AttributedString("-" + originalLines[originalIndex] + "\n")                removedLine.foregroundColor = .red                diff.append(removedLine)
+                originalIndex += 1
+            } else if modifiedIndex < modifiedLines.count {
+                // Line added
+                var addedLine = AttributedString("+" + modifiedLines[modifiedIndex] + "\n")
+                addedLine.foregroundColor = .green
+                diff.append(addedLine)
+                modifiedIndex += 1
+            }
+        }
+        return diff
     }
 }
 
