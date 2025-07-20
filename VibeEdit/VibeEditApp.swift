@@ -17,11 +17,13 @@ struct VibeEditApp: App {
                 }
                 .keyboardShortcut(",")
             }
-            CommandGroup(after: .appSettings) {
+            CommandGroup(after: .newItem) {
                 Button("Open...") {
                     appModel.showFileImporter = true
                 }
                 .keyboardShortcut("o")
+            }
+            CommandGroup(after: .saveItem) {
                 Button("Save") {
                     appModel.saveContent()
                 }
