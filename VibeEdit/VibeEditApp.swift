@@ -6,16 +6,23 @@ struct VibeEditApp: App {
     @StateObject private var appModel = AppModel()
 
     var body: some Scene {
-        WindowGroup {
+        WindowGroup("VibeEdit") {
             ContentView()
                 .environmentObject(appModel)
         }
+        .windowStyle(.hiddenTitleBar)
         .commands {
             CommandGroup(replacing: .appSettings) {
                 SettingsLink {
                     Text("Settings...")
                 }
                 .keyboardShortcut(",")
+            }
+            CommandGroup(before: .newItem) {
+                Button("New") {
+                    appModel.newDocument()
+                }
+                .keyboardShortcut("n")
             }
             CommandGroup(after: .newItem) {
                 Button("Open...") {

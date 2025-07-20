@@ -50,14 +50,14 @@ struct ContentView: View {
                         ProgressView()
                     }
                 }
-                ToolbarItem(placement: .primaryAction) {
+                ToolbarItem(placement: .automatic) {
                     Button(action: {
                         appModel.leftText = self.rightText
                     }) {
                         Text("Accept AI Text")
                     }
                 }
-                ToolbarItem(placement: .primaryAction) {
+                ToolbarItem(placement: .automatic) {
                     Toggle(isOn: $isDiffMode) {
                         Text("Diff Mode")
                     }
@@ -77,7 +77,7 @@ struct ContentView: View {
                         await sendToOllama()
                     }
                 }) {
-                    Text("Send")
+                    Label("Send", systemImage: "paperplane.fill")
                 }
                 .disabled(command.isEmpty)
             }

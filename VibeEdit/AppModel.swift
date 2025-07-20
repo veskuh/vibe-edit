@@ -24,4 +24,9 @@ public class AppModel: ObservableObject {
             showSavePanel = true
         }
     }
+
+    func newDocument() {
+        leftText = ""
+        fileURL = nil
+    }
 }
