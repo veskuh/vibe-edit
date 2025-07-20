@@ -21,6 +21,13 @@ struct ContentView: View {
                         ProgressView()
                     }
                 }
+                ToolbarItem(placement: .primaryAction) {
+                    Button(action: {
+                        self.leftText = self.rightText
+                    }) {
+                        Text("Accept AI Text")
+                    }
+                }
             }
             HStack {
                 Text("Ask AI:")
