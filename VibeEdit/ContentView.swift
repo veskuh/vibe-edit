@@ -1,4 +1,5 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct ContentView: View {
     @EnvironmentObject var appModel: AppModel
@@ -24,6 +25,7 @@ struct ContentView: View {
                             guard fileUrl.startAccessingSecurityScopedResource() else { return }
                             let fileContent = try String(contentsOf: fileUrl)
                             appModel.leftText = fileContent
+                            appModel.fileURL = fileUrl // Store the URL for subsequent saves
                             fileUrl.stopAccessingSecurityScopedResource()
                         } catch {
                             print("Error reading file: \(error.localizedDescription)")
@@ -81,6 +83,19 @@ struct ContentView: View {
             }
             .padding()
         }
+        .fileExporter(
+            isPresented: $appModel.showSavePanel,
+            document: TextFile(initialText: appModel.contentToSave),
+            contentType: .plainText,
+            defaultFilename: "Untitled.txt"
+        ) { result in
+            switch result {
+            case .success(let url):
+                appModel.fileURL = url
+            case .failure(let error):
+                print("Error saving file: \(error.localizedDescription)")
+            }
+        }
     }
     func sendToOllama() async {
         isBusy = true
@@ -90,14 +105,14 @@ struct ContentView: View {
         self.rightText = ""
         
 
-        guard let url = URL(string: "http://localhost:11434/api/generate") else { return }
+        guard let url = URL(string: "\(appModel.ollamaServerAddress)/api/generate") else { return }
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
         let body: [String: Any] = [
-            "model": "gemma3:12b",
+            "model": appModel.ollamaModel,
             "prompt": fullPrompt,
             "stream": true,
             "system": "You are an expert AI text editor. You will be given a user's command and a piece of text. Your task is to follow the command and modify the text accordingly. Only output the resulting, modified text. Do not add any commentary, greetings, or explanations unless the user's command specifically asks for them."

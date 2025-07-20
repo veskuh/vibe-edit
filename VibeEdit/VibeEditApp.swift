@@ -12,11 +12,30 @@ struct VibeEditApp: App {
         }
         .commands {
             CommandGroup(replacing: .appSettings) {
+                SettingsLink {
+                    Text("Settings...")
+                }
+                .keyboardShortcut(",")
+            }
+            CommandGroup(after: .appSettings) {
                 Button("Open...") {
                     appModel.showFileImporter = true
                 }
                 .keyboardShortcut("o")
+                Button("Save") {
+                    appModel.saveContent()
+                }
+                .keyboardShortcut("s")
+                .disabled(appModel.fileURL == nil)
+                Button("Save As...") {
+                    appModel.contentToSave = appModel.leftText
+                    appModel.showSavePanel = true
+                }
+                .keyboardShortcut("s", modifiers: [.shift, .command])
             }
+        }
+        Settings {
+            SettingsView()
         }
     }
 }

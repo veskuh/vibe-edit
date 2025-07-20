@@ -11,6 +11,8 @@
 		2D4A8CA02A1B9C4A00A7A6E4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4A8C9F2A1B9C4A00A7A6E4 /* ContentView.swift */; };
 		2D4A8CA32A1B9C4A00A7A6E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D4A8CA22A1B9C4A00A7A6E4 /* Assets.xcassets */; };
 		991A84492E2D41A800F68EDB /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991A84482E2D41A800F68EDB /* AppModel.swift */; };
+		995B38ED2E2D43EF001E630B /* TextFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995B38EC2E2D43EF001E630B /* TextFile.swift */; };
+		99B89A512E2D4731007D6207 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B89A502E2D4731007D6207 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +22,8 @@
 		2D4A8CA22A1B9C4A00A7A6E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2D4A8CA42A1B9C4A00A7A6E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		991A84482E2D41A800F68EDB /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		995B38EC2E2D43EF001E630B /* TextFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFile.swift; sourceTree = "<group>"; };
+		99B89A502E2D4731007D6207 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +58,8 @@
 			children = (
 				991A84482E2D41A800F68EDB /* AppModel.swift */,
 				2D4A8C9D2A1B9C4A00A7A6E4 /* VibeEditApp.swift */,
+				995B38EC2E2D43EF001E630B /* TextFile.swift */,
+				99B89A502E2D4731007D6207 /* SettingsView.swift */,
 				2D4A8C9F2A1B9C4A00A7A6E4 /* ContentView.swift */,
 				2D4A8CA22A1B9C4A00A7A6E4 /* Assets.xcassets */,
 				2D4A8CA42A1B9C4A00A7A6E4 /* Info.plist */,
@@ -123,8 +129,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99B89A512E2D4731007D6207 /* SettingsView.swift in Sources */,
 				2D4A8CA02A1B9C4A00A7A6E4 /* ContentView.swift in Sources */,
 				991A84492E2D41A800F68EDB /* AppModel.swift in Sources */,
+				995B38ED2E2D43EF001E630B /* TextFile.swift in Sources */,
 				2D4A8C9E2A1B9C4A00A7A6E4 /* VibeEditApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -170,7 +178,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTC_ENABLE_DEBUG_INFORMATION = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -217,7 +225,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTC_ENABLE_DEBUG_INFORMATION = NO;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -238,7 +246,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.VibeEdit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -258,7 +266,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.VibeEdit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
