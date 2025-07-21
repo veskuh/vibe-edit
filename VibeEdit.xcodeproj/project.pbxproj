@@ -182,6 +182,8 @@
 				MTC_ENABLE_DEBUG_INFORMATION = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+								BUILT_PRODUCTS_DIR = "$(SRCROOT)/build/Products";
+								SYMROOT = "$(SRCROOT)/build/Intermediates";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -228,6 +230,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTC_ENABLE_DEBUG_INFORMATION = NO;
 				SDKROOT = macosx;
+								BUILT_PRODUCTS_DIR = "$(SRCROOT)/build/Products";
+								SYMROOT = "$(SRCROOT)/build/Intermediates";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
