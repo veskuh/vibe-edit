@@ -12,12 +12,7 @@ struct VibeEditApp: App {
         }
         .windowStyle(.hiddenTitleBar)
         .commands {
-            CommandGroup(replacing: .appSettings) {
-                SettingsLink {
-                    Text("Settings...")
-                }
-                .keyboardShortcut(",")
-            }
+            
             CommandGroup(before: .newItem) {
                 Button("New") {
                     appModel.newDocument()
