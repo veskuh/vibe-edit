@@ -13,6 +13,7 @@ struct ContentView: View {
         VStack {
             HSplitView {
                 TextEditor(text: $appModel.leftText)
+                    .font(.custom("SF Mono", size: 16.0))
                     .frame(minWidth: 200, idealWidth: 400, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: .infinity)
                     .padding(.top, 5)
                     .fileImporter(
@@ -32,6 +33,7 @@ struct ContentView: View {
                         }
                     }
                 TextEditor(text: $rightText)
+                    .font(.custom("SF Mono", size: 16.0))
                     .frame(minWidth: 200, idealWidth: 400, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: .infinity)
                     .padding(.top, 5)
                     .opacity(isDiffMode ? 0 : 1)
