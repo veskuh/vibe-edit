@@ -145,15 +145,32 @@ struct ContentView: View {
     }
     func generateDiff(original: String, modified: String) -> AttributedString {
         var diff = AttributedString()
-        let originalWords = original.components(separatedBy: .whitespacesAndNewlines).filter { !$0.isEmpty }
-        let modifiedWords = modified.components(separatedBy: .whitespacesAndNewlines).filter { !$0.isEmpty }
+
+        func tokenize(_ text: String) -> [String] {
+            do {
+                // This regex splits the string into words and whitespace/newline sequences
+                let regex = try NSRegularExpression(pattern: "\\S+|\\s+")
+                let range = NSRange(text.startIndex..., in: text)
+                let matches = regex.matches(in: text, range: range)
+                return matches.map {
+                    String(text[Range($0.range, in: text)!])
+                }
+            } catch {
+                print("Regex error: \(error)")
+                // Fallback to original behavior in case of error
+                return text.components(separatedBy: .whitespacesAndNewlines)
+            }
+        }
+
+        let originalTokens = tokenize(original)
+        let modifiedTokens = tokenize(modified)
 
         // Simple word-by-word diff using a basic longest common subsequence approach
-        var dp = Array(repeating: Array(repeating: 0, count: modifiedWords.count + 1), count: originalWords.count + 1)
+        var dp = Array(repeating: Array(repeating: 0, count: modifiedTokens.count + 1), count: originalTokens.count + 1)
 
-        for i in 1...originalWords.count {
-            for j in 1...modifiedWords.count {
-                if originalWords[i-1] == modifiedWords[j-1] {
+        for i in 1...originalTokens.count {
+            for j in 1...modifiedTokens.count {
+                if originalTokens[i-1] == modifiedTokens[j-1] {
                     dp[i][j] = dp[i-1][j-1] + 1
                 } else {
                     dp[i][j] = max(dp[i-1][j], dp[i][j-1])
@@ -161,31 +178,31 @@ struct ContentView: View {
             }
         }
 
-        var i = originalWords.count
-        var j = modifiedWords.count
+        var i = originalTokens.count
+        var j = modifiedTokens.count
 
-        var diffWords: [(String, Color?)] = []
+        var diffTokens: [(String, Color?)] = []
 
         while i > 0 || j > 0 {
-            if i > 0 && j > 0 && originalWords[i-1] == modifiedWords[j-1] {
-                diffWords.append((originalWords[i-1], nil)) // Unchanged
+            if i > 0 && j > 0 && originalTokens[i-1] == modifiedTokens[j-1] {
+                diffTokens.append((originalTokens[i-1], nil)) // Unchanged
                 i -= 1
                 j -= 1
             } else if j > 0 && (i == 0 || dp[i][j-1] >= dp[i-1][j]) {
-                diffWords.append((modifiedWords[j-1], .green)) // Added
+                diffTokens.append((modifiedTokens[j-1], .green)) // Added
                 j -= 1
             } else if i > 0 && (j == 0 || dp[i][j-1] < dp[i-1][j]) {
-                diffWords.append((originalWords[i-1], .red)) // Removed
+                diffTokens.append((originalTokens[i-1], .red)) // Removed
                 i -= 1
             }
         }
 
-        for (word, color) in diffWords.reversed() {
-            var attributedWord = AttributedString(word + " ")
+        for (token, color) in diffTokens.reversed() {
+            var attributedToken = AttributedString(token)
             if let color = color {
-                attributedWord.foregroundColor = color
+                attributedToken.foregroundColor = color
             }
-            diff.append(attributedWord)
+            diff.append(attributedToken)
         }
 
         return diff
