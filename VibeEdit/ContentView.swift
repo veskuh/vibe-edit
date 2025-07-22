@@ -39,10 +39,12 @@ struct ContentView: View {
                     .opacity(isDiffMode ? 0 : 1)
                     .overlay(Group {
                         if isDiffMode {
-                            Text(generateDiff(original: appModel.leftText, modified: rightText))
-                                .font(.body.monospaced())
-                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                                .padding(.all, 8)
+                            ScrollView {
+                                Text(generateDiff(original: appModel.leftText, modified: rightText))
+                                    .font(.body.monospaced())
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                                    .padding(.all, 8)
+                            }
                         }
                     })
             }
