@@ -145,43 +145,49 @@ struct ContentView: View {
     }
     func generateDiff(original: String, modified: String) -> AttributedString {
         var diff = AttributedString()
-        let originalLines = original.components(separatedBy: .newlines)
-        let modifiedLines = modified.components(separatedBy: .newlines)
+        let originalWords = original.components(separatedBy: .whitespacesAndNewlines).filter { !$0.isEmpty }
+        let modifiedWords = modified.components(separatedBy: .whitespacesAndNewlines).filter { !$0.isEmpty }
 
-        // A simple line-by-line comparison for demonstration
-        // A real diff algorithm (e.g., Myers diff) would be more complex
-        var originalIndex = 0
-        var modifiedIndex = 0
+        // Simple word-by-word diff using a basic longest common subsequence approach
+        var dp = Array(repeating: Array(repeating: 0, count: modifiedWords.count + 1), count: originalWords.count + 1)
 
-        while originalIndex < originalLines.count || modifiedIndex < modifiedLines.count {
-            if originalIndex < originalLines.count && modifiedIndex < modifiedLines.count {
-                if originalLines[originalIndex] == modifiedLines[modifiedIndex] {
-                    // Unchanged line
-                    diff.append(AttributedString("  " + originalLines[originalIndex] + "\n"))
-                    originalIndex += 1
-                    modifiedIndex += 1
+        for i in 1...originalWords.count {
+            for j in 1...modifiedWords.count {
+                if originalWords[i-1] == modifiedWords[j-1] {
+                    dp[i][j] = dp[i-1][j-1] + 1
                 } else {
-                    // Changed line
-                    var removedLine = AttributedString("-" + originalLines[originalIndex] + "\n")
-                    removedLine.foregroundColor = .red
-                    diff.append(removedLine)
-                    var addedLine = AttributedString("+" + modifiedLines[modifiedIndex] + "\n")
-                    addedLine.foregroundColor = .green
-                    diff.append(addedLine)
-                    originalIndex += 1
-                    modifiedIndex += 1
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1])
                 }
-            } else if originalIndex < originalLines.count {
-                // Line removed                var removedLine = AttributedString("-" + originalLines[originalIndex] + "\n")                removedLine.foregroundColor = .red                diff.append(removedLine)
-                originalIndex += 1
-            } else if modifiedIndex < modifiedLines.count {
-                // Line added
-                var addedLine = AttributedString("+" + modifiedLines[modifiedIndex] + "\n")
-                addedLine.foregroundColor = .green
-                diff.append(addedLine)
-                modifiedIndex += 1
             }
         }
+
+        var i = originalWords.count
+        var j = modifiedWords.count
+
+        var diffWords: [(String, Color?)] = []
+
+        while i > 0 || j > 0 {
+            if i > 0 && j > 0 && originalWords[i-1] == modifiedWords[j-1] {
+                diffWords.append((originalWords[i-1], nil)) // Unchanged
+                i -= 1
+                j -= 1
+            } else if j > 0 && (i == 0 || dp[i][j-1] >= dp[i-1][j]) {
+                diffWords.append((modifiedWords[j-1], .green)) // Added
+                j -= 1
+            } else if i > 0 && (j == 0 || dp[i][j-1] < dp[i-1][j]) {
+                diffWords.append((originalWords[i-1], .red)) // Removed
+                i -= 1
+            }
+        }
+
+        for (word, color) in diffWords.reversed() {
+            var attributedWord = AttributedString(word + " ")
+            if let color = color {
+                attributedWord.foregroundColor = color
+            }
+            diff.append(attributedWord)
+        }
+
         return diff
     }
 }
