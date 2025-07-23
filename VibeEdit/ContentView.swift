@@ -3,6 +3,7 @@ import UniformTypeIdentifiers
 
 struct ContentView: View {
     @EnvironmentObject var appModel: AppModel
+    @EnvironmentObject var errorManager: ErrorManager
     @State private var rightText: String = ""
     @State private var command: String = ""
     @State private var chatHistory: String = ""
@@ -29,7 +30,9 @@ struct ContentView: View {
                             appModel.fileURL = fileUrl // Store the URL for subsequent saves
                             fileUrl.stopAccessingSecurityScopedResource()
                         } catch {
-                            print("Error reading file: \(error.localizedDescription)")
+                            let errorMessage = "Error reading file: \(error.localizedDescription)"
+                            print(errorMessage)
+                            errorManager.errorMessage = errorMessage
                         }
                     }
                 TextEditor(text: $rightText)
@@ -97,8 +100,15 @@ struct ContentView: View {
             case .success(let url):
                 appModel.fileURL = url
             case .failure(let error):
-                print("Error saving file: \(error.localizedDescription)")
+                let errorMessage = "Error saving file: \(error.localizedDescription)"
+                print(errorMessage)
+                errorManager.errorMessage = errorMessage
             }
+        }
+        .sheet(isPresented: .constant(errorManager.errorMessage != nil), onDismiss: {
+            errorManager.errorMessage = nil
+        }) {
+            ErrorView(errorMessage: $errorManager.errorMessage)
         }
     }
     func sendToOllama() async {
@@ -139,7 +149,11 @@ struct ContentView: View {
                 self.chatHistory += "\nUser Request: \(currentPrompt)\nAI Response: \(self.rightText)"
             }
         } catch {
-            print("Error sending request to Ollama: \(error)")
+            let errorMessage = "Error sending request to Ollama: \(error)"
+            print(errorMessage)
+            DispatchQueue.main.async {
+                errorManager.errorMessage = errorMessage
+            }
         }
         isBusy = false
     }
@@ -156,7 +170,11 @@ struct ContentView: View {
                     String(text[Range($0.range, in: text)!])
                 }
             } catch {
-                print("Regex error: \(error)")
+                let errorMessage = "Regex error: \(error)"
+                print(errorMessage)
+                DispatchQueue.main.async {
+                    errorManager.errorMessage = errorMessage
+                }
                 // Fallback to original behavior in case of error
                 return text.components(separatedBy: .whitespacesAndNewlines)
             }
@@ -166,7 +184,7 @@ struct ContentView: View {
         let modifiedTokens = tokenize(modified)
 
         // Simple word-by-word diff using a basic longest common subsequence approach
-        var dp = Array(repeating: Array(repeating: 0, count: modifiedTokens.count + 1), count: originalTokens.count + 1)
+        var dp = Array(repeating: Array(repeating: 0, count: modifiedTokens.count + 1), count: modifiedTokens.count + 1)
 
         for i in 1...originalTokens.count {
             for j in 1...modifiedTokens.count {

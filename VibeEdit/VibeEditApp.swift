@@ -4,11 +4,13 @@ import SwiftUI
 @main
 struct VibeEditApp: App {
     @StateObject private var appModel = AppModel()
+    @StateObject private var errorManager = ErrorManager()
 
     var body: some Scene {
         WindowGroup("VibeEdit") {
             ContentView()
                 .environmentObject(appModel)
+                .environmentObject(errorManager)
         }
         .windowStyle(.hiddenTitleBar)
         .commands {
