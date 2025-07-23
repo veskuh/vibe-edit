@@ -15,6 +15,7 @@
 		99B89A512E2D4731007D6207 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B89A502E2D4731007D6207 /* SettingsView.swift */; };
 		99C549552E31354D003F3652 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C549542E31354D003F3652 /* ErrorView.swift */; };
 		99C549572E313559003F3652 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C549562E313559003F3652 /* ErrorHandling.swift */; };
+		99F4B4E62E314F3C003F3652 /* OllamaModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F4B4E52E314F3C003F3652 /* OllamaModels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		99B89A502E2D4731007D6207 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		99C549542E31354D003F3652 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		99C549562E313559003F3652 /* ErrorHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
+		99F4B4E52E314F3C003F3652 /* OllamaModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OllamaModels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 		2D4A8C9C2A1B9C4A00A7A6E4 /* VibeEdit */ = {
 			isa = PBXGroup;
 			children = (
+				99F4B4E52E314F3C003F3652 /* OllamaModels.swift */,
 				99C549562E313559003F3652 /* ErrorHandling.swift */,
 				99C549542E31354D003F3652 /* ErrorView.swift */,
 				991A84482E2D41A800F68EDB /* AppModel.swift */,
@@ -135,6 +138,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99F4B4E62E314F3C003F3652 /* OllamaModels.swift in Sources */,
 				99C549572E313559003F3652 /* ErrorHandling.swift in Sources */,
 				99C549552E31354D003F3652 /* ErrorView.swift in Sources */,
 				99B89A512E2D4731007D6207 /* SettingsView.swift in Sources */,

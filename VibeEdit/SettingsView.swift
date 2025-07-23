@@ -6,11 +6,27 @@ struct SettingsView: View {
     @AppStorage("ollamaServerAddress") private var ollamaServerAddress: String = "http://localhost:11434"
     @AppStorage("editorFontName") private var editorFontName: String = "SF Mono"
     @AppStorage("editorFontSize") private var editorFontSize: Double = 16.0
+    @State private var ollamaModels: [OllamaModel] = []
+    @EnvironmentObject var errorManager: ErrorManager
 
     var body: some View {
         Form {
             Section(header: Text("Ollama Settings")) {
-                TextField("Ollama Model", text: $ollamaModel)
+                HStack {
+                    Picker("Ollama Model", selection: $ollamaModel) {
+                        ForEach(ollamaModels) { model in
+                            Text(model.name).tag(model.name)
+                        }
+                    }
+                    Button(action: {
+                        Task {
+                            await fetchOllamaModels()
+                        }
+                    }) {
+                        Image(systemName: "arrow.clockwise")
+                    }
+                    .buttonStyle(BorderlessButtonStyle())
+                }
                 TextField("Ollama Server Address", text: $ollamaServerAddress)
             }
             Section(header: Text("Editor Appearance")) {
@@ -26,6 +42,30 @@ struct SettingsView: View {
         }
         .padding()
         .frame(width: 600, height: 250)
+        .onAppear {
+            Task {
+                await fetchOllamaModels()
+            }
+        }
+    }
+
+    private func fetchOllamaModels() async {
+        guard let url = URL(string: "\(ollamaServerAddress)/api/tags") else {
+            let errorMessage = "Invalid Ollama server address"
+            print(errorMessage)
+            errorManager.errorMessage = errorMessage
+            return
+        }
+
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            let response = try JSONDecoder().decode(OllamaTagsResponse.self, from: data)
+            self.ollamaModels = response.models
+        } catch {
+            let errorMessage = "Error fetching Ollama models: \(error.localizedDescription)"
+            print(errorMessage)
+            errorManager.errorMessage = errorMessage
+        }
     }
 }
 
