@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		99C549592E314F3C003F3652 /* DiffingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C549582E314F3C003F3652 /* DiffingTests.swift */; };
+		99C5495A2E314F3C003F3652 /* DiffingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C549582E314F3C003F3652 /* DiffingTests.swift */; };
+		2D4A8C9E2A1B9C4A00A7A6E4 /* VibeEditApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4A8C9D2A1B9C4A00A7A6E4 /* VibeEditApp.swift */; };
+		2D4A8CA02A1B9C4A00A7A6E4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4A8C9F2A1B9C4A00A7A6E4 /* ContentView.swift */; };
+		2D4A8CA32A1B9C4A00A7A6E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D4A8CA22A1B9C4A00A7A6E4 /* Assets.xcassets */; };
+		991A84492E2D41A800F68EDB /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 991A84482E2D41A800F68EDB /* AppModel.swift */; };
+		995B38ED2E2D43EF001E630B /* TextFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995B38EC2E2D43EF001E630B /* TextFile.swift */; };
+		99B89A512E2D4731007D6207 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B89A502E2D4731007D6207 /* SettingsView.swift */; };
+		99C549552E31354D003F3652 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C549542E31354D003F3652 /* ErrorView.swift */; };
+		99C549572E313559003F3652 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C549562E313559003F3652 /* ErrorHandling.swift */; };
+		99F4B4E62E314F3C003F3652 /* OllamaModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F4B4E52E314F3C003F3652 /* OllamaModels.swift */; };
+		99C5495A2E314F3C003F3652 /* DiffingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C549582E314F3C003F3652 /* DiffingTests.swift */; };
 		2D4A8C9E2A1B9C4A00A7A6E4 /* VibeEditApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4A8C9D2A1B9C4A00A7A6E4 /* VibeEditApp.swift */; };
 		2D4A8CA02A1B9C4A00A7A6E4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4A8C9F2A1B9C4A00A7A6E4 /* ContentView.swift */; };
 		2D4A8CA32A1B9C4A00A7A6E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D4A8CA22A1B9C4A00A7A6E4 /* Assets.xcassets */; };
@@ -19,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		99C5495C2E314F3C003F3652 /* VibeEditTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VibeEditTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D4A8C9A2A1B9C4A00A7A6E4 /* VibeEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VibeEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D4A8C9D2A1B9C4A00A7A6E4 /* VibeEditApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibeEditApp.swift; sourceTree = "<group>"; };
 		2D4A8C9F2A1B9C4A00A7A6E4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -26,6 +39,7 @@
 		2D4A8CA42A1B9C4A00A7A6E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		991A84482E2D41A800F68EDB /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		995B38EC2E2D43EF001E630B /* TextFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFile.swift; sourceTree = "<group>"; };
+		9980D0372E3131080048FF22 /* VibeEditTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = VibeEditTests.xctestplan; sourceTree = "<group>"; };
 		99B89A502E2D4731007D6207 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		99C549542E31354D003F3652 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		99C549562E313559003F3652 /* ErrorHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
@@ -46,6 +60,7 @@
 		2D4A8C942A1B9C4A00A7A6E4 = {
 			isa = PBXGroup;
 			children = (
+				9980D0372E3131080048FF22 /* VibeEditTests.xctestplan */,
 				2D4A8C9C2A1B9C4A00A7A6E4 /* VibeEdit */,
 				2D4A8C9B2A1B9C4A00A7A6E4 /* Products */,
 			);
@@ -95,6 +110,24 @@
 			productName = VibeEdit;
 			productReference = 2D4A8C9A2A1B9C4A00A7A6E4 /* VibeEdit.app */;
 			productType = "com.apple.product-type.application";
+		};
+		99C5495B2E314F3C003F3652 /* VibeEditTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 99C549612E314F3C003F3652 /* Build configuration list for PBXNativeTarget "VibeEditTests" */;
+			buildPhases = (
+				99C5495E2E314F3C003F3652 /* Sources */,
+				99C5495F2E314F3C003F3652 /* Frameworks */,
+				99C549602E314F3C003F3652 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				99C549642E314F3C003F3652 /* PBXTargetDependency */,
+			);
+			name = VibeEditTests;
+			productName = VibeEditTests;
+			productReference = 99C5495C2E314F3C003F3652 /* VibeEditTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -194,8 +227,7 @@
 				MTC_ENABLE_DEBUG_INFORMATION = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-								BUILT_PRODUCTS_DIR = "$(SRCROOT)/build/Products";
-								SYMROOT = "$(SRCROOT)/build/Intermediates";
+				SYMROOT = "$(SRCROOT)/build";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -242,10 +274,9 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTC_ENABLE_DEBUG_INFORMATION = NO;
 				SDKROOT = macosx;
-								BUILT_PRODUCTS_DIR = "$(SRCROOT)/build/Products";
-								SYMROOT = "$(SRCROOT)/build/Intermediates";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SYMROOT = "$(SRCROOT)/build";
 			};
 			name = Release;
 		};
@@ -277,6 +308,214 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGNING_REQUIRED = "NO";
+				COMBINE_HIDDEN_SWIFTUI_PREVIEWS = YES;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = VibeEdit/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.VibeEdit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		99C549622E314F3C003F3652 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = "NO";
+				INFOPLIST_FILE = VibeEditTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.VibeEditTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VibeEdit.app/Contents/MacOS/VibeEdit";
+			};
+			name = Debug;
+		};
+		99C549632E314F3C003F3652 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = "NO";
+				INFOPLIST_FILE = VibeEditTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.VibeEditTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VibeEdit.app/Contents/MacOS/VibeEdit";
+			};
+			name = Release;
+		};
+		99C549622E314F3C003F3652 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = "NO";
+				INFOPLIST_FILE = VibeEditTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.VibeEditTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VibeEdit.app/Contents/MacOS/VibeEdit";
+			};
+			name = Debug;
+		};
+		99C549632E314F3C003F3652 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = "NO";
+				INFOPLIST_FILE = VibeEditTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.VibeEditTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VibeEdit.app/Contents/MacOS/VibeEdit";
+			};
+			name = Release;
+		};
+		99C549612E314F3C003F3652 /* Build configuration list for PBXNativeTarget "VibeEditTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				99C549622E314F3C003F3652 /* Debug */,
+				99C549632E314F3C003F3652 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2D4A8CA62A1B9C4A00A7A6E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILT_PRODUCTS_DIR = "$(SRCROOT)/build/Products";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTC_ENABLE_DEBUG_INFORMATION = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SYMROOT = "$(SRCROOT)/build/Intermediates";
+			};
+			name = Debug;
+		};
+		2D4A8CA72A1B9C4A00A7A6E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILT_PRODUCTS_DIR = "$(SRCROOT)/build/Products";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTC_ENABLE_DEBUG_INFORMATION = NO;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SYMROOT = "$(SRCROOT)/build/Intermediates";
+			};
+			name = Release;
+		};
+		2D4A8CAB2A1B9C4A00A7A6E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDDEN_SWIFTUI_PREVIEWS = YES;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = VibeEdit/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.VibeEdit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		2D4A8CAC2A1B9C4A00A7A6E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDDEN_SWIFTUI_PREVIEWS = YES;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = VibeEdit/Info.plist;

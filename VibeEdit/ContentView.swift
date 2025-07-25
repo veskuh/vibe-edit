@@ -158,6 +158,10 @@ struct ContentView: View {
         isBusy = false
     }
     func generateDiff(original: String, modified: String) -> AttributedString {
+        if original.isEmpty && modified.isEmpty {
+            return AttributedString()
+        }
+
         var diff = AttributedString()
 
         func tokenize(_ text: String) -> [String] {
@@ -184,14 +188,16 @@ struct ContentView: View {
         let modifiedTokens = tokenize(modified)
 
         // Simple word-by-word diff using a basic longest common subsequence approach
-        var dp = Array(repeating: Array(repeating: 0, count: modifiedTokens.count + 1), count: modifiedTokens.count + 1)
+        var dp = Array(repeating: Array(repeating: 0, count: modifiedTokens.count + 1), count: originalTokens.count + 1)
 
-        for i in 1...originalTokens.count {
-            for j in 1...modifiedTokens.count {
-                if originalTokens[i-1] == modifiedTokens[j-1] {
-                    dp[i][j] = dp[i-1][j-1] + 1
-                } else {
-                    dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+        if !originalTokens.isEmpty && !modifiedTokens.isEmpty {
+            for i in 1...originalTokens.count {
+                for j in 1...modifiedTokens.count {
+                    if originalTokens[i-1] == modifiedTokens[j-1] {
+                        dp[i][j] = dp[i-1][j-1] + 1
+                    } else {
+                        dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+                    }
                 }
             }
         }
@@ -212,6 +218,9 @@ struct ContentView: View {
             } else if i > 0 && (j == 0 || dp[i][j-1] < dp[i-1][j]) {
                 diffTokens.append((originalTokens[i-1], .red)) // Removed
                 i -= 1
+            } else {
+                // This case should not be reached, but as a fallback, we break the loop
+                break
             }
         }
 
