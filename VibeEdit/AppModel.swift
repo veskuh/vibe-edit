@@ -8,6 +8,7 @@ public class AppModel: ObservableObject {
     @Published var showSavePanel: Bool = false
     @Published var fileURL: URL? = nil
     @Published var contentToSave: String = ""
+    @Published var prompts: [Prompt] = [] { didSet { savePrompts() } }
 
     @AppStorage("ollamaModel") var ollamaModel: String = "gemma3:12b"
     @AppStorage("ollamaServerAddress") var ollamaServerAddress: String = "http://localhost:11434"
@@ -18,6 +19,10 @@ public class AppModel: ObservableObject {
         // Use a common set of monospaced and system fonts
         ["SF Mono", "Menlo", "Monaco", "Courier", "Courier New", "Fira Mono", "JetBrains Mono", "Andale Mono"]
     }()
+    
+    init() {
+        loadPrompts()
+    }
 
     func saveContent() {
         contentToSave = leftText // Set content to save from leftText
@@ -35,5 +40,22 @@ public class AppModel: ObservableObject {
     func newDocument() {
         leftText = ""
         fileURL = nil
+    }
+    
+    private func savePrompts() {
+        if let encoded = try? JSONEncoder().encode(prompts) {
+            UserDefaults.standard.set(encoded, forKey: "savedPrompts")
+        }
+    }
+
+    private func loadPrompts() {
+        if let savedPrompts = UserDefaults.standard.data(forKey: "savedPrompts") {
+            if let decodedPrompts = try? JSONDecoder().decode([Prompt].self, from: savedPrompts) {
+                prompts = decodedPrompts
+                return
+            }
+        }
+
+        prompts = []
     }
 }

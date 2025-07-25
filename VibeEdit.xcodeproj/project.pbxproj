@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C666D110EB4341C2B1CA3293 /* PromptsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEBE347446624F5ABAA3D55F /* PromptsView.swift */; };
+		D6C65AA9526F48F2809808C5 /* Prompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C65AA8526F48F2809808C5 /* Prompt.swift */; };
+		
 		99C549592E314F3C003F3652 /* DiffingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C549582E314F3C003F3652 /* DiffingTests.swift */; };
 		99C5495A2E314F3C003F3652 /* DiffingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C549582E314F3C003F3652 /* DiffingTests.swift */; };
 		2D4A8C9E2A1B9C4A00A7A6E4 /* VibeEditApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4A8C9D2A1B9C4A00A7A6E4 /* VibeEditApp.swift */; };
@@ -31,6 +34,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FEBE347446624F5ABAA3D55F /* PromptsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptsView.swift; sourceTree = "<group>"; };
+		D6C65AA8526F48F2809808C5 /* Prompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prompt.swift; sourceTree = "<group>"; };
+		
 		99C5495C2E314F3C003F3652 /* VibeEditTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VibeEditTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D4A8C9A2A1B9C4A00A7A6E4 /* VibeEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VibeEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D4A8C9D2A1B9C4A00A7A6E4 /* VibeEditApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibeEditApp.swift; sourceTree = "<group>"; };
@@ -77,6 +83,8 @@
 		2D4A8C9C2A1B9C4A00A7A6E4 /* VibeEdit */ = {
 			isa = PBXGroup;
 			children = (
+				FEBE347446624F5ABAA3D55F /* PromptsView.swift */,
+				D6C65AA8526F48F2809808C5 /* Prompt.swift */,
 				99F4B4E52E314F3C003F3652 /* OllamaModels.swift */,
 				99C549562E313559003F3652 /* ErrorHandling.swift */,
 				99C549542E31354D003F3652 /* ErrorView.swift */,
@@ -171,6 +179,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6C65AA9526F48F2809808C5 /* Prompt.swift in Sources */,
+				C666D110EB4341C2B1CA3293 /* PromptsView.swift in Sources */,
 				99F4B4E62E314F3C003F3652 /* OllamaModels.swift in Sources */,
 				99C549572E313559003F3652 /* ErrorHandling.swift in Sources */,
 				99C549552E31354D003F3652 /* ErrorView.swift in Sources */,

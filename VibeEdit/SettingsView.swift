@@ -1,4 +1,3 @@
-
 import SwiftUI
 
 struct SettingsView: View {
@@ -8,6 +7,7 @@ struct SettingsView: View {
     @AppStorage("editorFontSize") private var editorFontSize: Double = 16.0
     @State private var ollamaModels: [OllamaModel] = []
     @EnvironmentObject var errorManager: ErrorManager
+    @EnvironmentObject var appModel: AppModel
 
     var body: some View {
         Form {
@@ -39,9 +39,13 @@ struct SettingsView: View {
                     Text("Font Size: \(Int(editorFontSize)) pt")
                 }
             }
+            Section(header: Text("Prompts")) {
+                PromptsView()
+                    .environmentObject(appModel)
+            }
         }
         .padding()
-        .frame(width: 600, height: 250)
+        .frame(width: 600, height: 400)
         .onAppear {
             Task {
                 await fetchOllamaModels()

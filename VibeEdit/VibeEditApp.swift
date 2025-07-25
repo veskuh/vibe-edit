@@ -42,6 +42,7 @@ struct VibeEditApp: App {
         }
         Settings {
             SettingsView()
+                .environmentObject(appModel)
                 .environmentObject(errorManager)
         }
     }

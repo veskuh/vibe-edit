@@ -9,6 +9,7 @@ struct ContentView: View {
     @State private var chatHistory: String = ""
     @State private var isBusy: Bool = false
     @State private var isDiffMode: Bool = false
+    @FocusState private var isCommandTextFieldFocused: Bool
 
     var body: some View {
         VStack {
@@ -71,9 +72,23 @@ struct ContentView: View {
                 }
             }
             HStack {
+                Menu {
+                    ForEach(appModel.prompts) { prompt in
+                        Button(prompt.name) {
+                            command = prompt.text
+                            isCommandTextFieldFocused = true
+                        }
+                    }
+                } label: {
+                    Image(systemName: "sparkles")
+                }
+                .menuStyle(.borderlessButton)
+                .frame(width: 20)
+                
                 Text("Ask AI:")
                 TextField("Enter your command here", text: $command)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .focused($isCommandTextFieldFocused)
                     .onSubmit {
                         Task {
                             await sendToOllama()
