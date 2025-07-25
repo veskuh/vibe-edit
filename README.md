@@ -14,6 +14,7 @@ VibeEdit is an AI-assisted text editor for macOS, designed to streamline your wr
     *   **Save**: Save the current content of the left pane to the last opened/saved file.
     *   **Save As...**: Save the content of the left pane to a new file with a user-specified name and extension.
 *   **Busy Indicator**: A visual indicator in the toolbar shows when the AI is processing a request.
+*   **Prompt Management**: Save, edit, and delete frequently used AI prompts for quick access. Prompts can be selected from a menu next to the "Ask AI" field.
 *   **Keyboard Shortcuts**: Standard macOS keyboard shortcuts for file operations.
 
 ## Dependencies
