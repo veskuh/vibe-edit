@@ -12,7 +12,7 @@ struct VibeEditApp: App {
                 .environmentObject(appModel)
                 .environmentObject(errorManager)
         }
-        .windowStyle(.hiddenTitleBar)
+        
         .commands {
             CommandGroup(after: .saveItem) {
                 // No custom save buttons needed, DocumentGroup handles it

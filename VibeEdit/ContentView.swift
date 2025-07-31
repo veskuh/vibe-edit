@@ -15,25 +15,33 @@ struct ContentView: View {
     var body: some View {
         VStack {
             HSplitView {
-                TextEditor(text: $document.initialText)
-                    .font(.custom(appModel.editorFontName, size: CGFloat(appModel.editorFontSize)))
-                    .frame(minWidth: 200, idealWidth: 400, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: .infinity)
-                    .padding(.top, 5)
-                TextEditor(text: $rightText)
-                    .font(.custom(appModel.editorFontName, size: CGFloat(appModel.editorFontSize)))
-                    .frame(minWidth: 200, idealWidth: 400, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: .infinity)
-                    .padding(.top, 5)
-                    .opacity(isDiffMode ? 0 : 1)
-                    .overlay(Group {
-                        if isDiffMode {
-                            ScrollView {
-                                Text(generateDiff(original: document.initialText, modified: rightText))
-                                    .font(.body.monospaced())
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                                    .padding(.all, 8)
+                VStack {
+                    Text("Your Draft")
+                        .font(.headline)
+                        .padding(.top, 5)
+                    TextEditor(text: $document.initialText)
+                        .font(.custom(appModel.editorFontName, size: CGFloat(appModel.editorFontSize)))
+                        .frame(minWidth: 200, idealWidth: 400, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: .infinity)
+                }
+                VStack {
+                    Text("AI Suggestion")
+                        .font(.headline)
+                        .padding(.top, 5)
+                    TextEditor(text: $rightText)
+                        .font(.custom(appModel.editorFontName, size: CGFloat(appModel.editorFontSize)))
+                        .frame(minWidth: 200, idealWidth: 400, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: .infinity)
+                        .opacity(isDiffMode ? 0 : 1)
+                        .overlay(Group {
+                            if isDiffMode {
+                                ScrollView {
+                                    Text(generateDiff(original: document.initialText, modified: rightText))
+                                        .font(.body.monospaced())
+                                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                                        .padding(.all, 8)
+                                }
                             }
-                        }
-                    })
+                        })
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .status) {
