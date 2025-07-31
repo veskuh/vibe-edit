@@ -2,6 +2,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct ContentView: View {
+    @Binding var document: TextFile
     @EnvironmentObject var appModel: AppModel
     @EnvironmentObject var errorManager: ErrorManager
     @State private var rightText: String = ""
@@ -14,28 +15,10 @@ struct ContentView: View {
     var body: some View {
         VStack {
             HSplitView {
-                TextEditor(text: $appModel.leftText)
+                TextEditor(text: $document.initialText)
                     .font(.custom(appModel.editorFontName, size: CGFloat(appModel.editorFontSize)))
                     .frame(minWidth: 200, idealWidth: 400, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: .infinity)
                     .padding(.top, 5)
-                    .fileImporter(
-                        isPresented: $appModel.showFileImporter,
-                        allowedContentTypes: [.plainText, .text],
-                        allowsMultipleSelection: false
-                    ) { result in
-                        do {
-                            let fileUrl = try result.get().first!
-                            guard fileUrl.startAccessingSecurityScopedResource() else { return }
-                            let fileContent = try String(contentsOf: fileUrl)
-                            appModel.leftText = fileContent
-                            appModel.fileURL = fileUrl // Store the URL for subsequent saves
-                            fileUrl.stopAccessingSecurityScopedResource()
-                        } catch {
-                            let errorMessage = "Error reading file: \(error.localizedDescription)"
-                            print(errorMessage)
-                            errorManager.errorMessage = errorMessage
-                        }
-                    }
                 TextEditor(text: $rightText)
                     .font(.custom(appModel.editorFontName, size: CGFloat(appModel.editorFontSize)))
                     .frame(minWidth: 200, idealWidth: 400, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: .infinity)
@@ -44,7 +27,7 @@ struct ContentView: View {
                     .overlay(Group {
                         if isDiffMode {
                             ScrollView {
-                                Text(generateDiff(original: appModel.leftText, modified: rightText))
+                                Text(generateDiff(original: document.initialText, modified: rightText))
                                     .font(.body.monospaced())
                                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                                     .padding(.all, 8)
@@ -60,7 +43,7 @@ struct ContentView: View {
                 }
                 ToolbarItem(placement: .automatic) {
                     Button(action: {
-                        appModel.leftText = self.rightText
+                        document.initialText = self.rightText
                     }) {
                         Text("Accept AI Text")
                     }
@@ -105,21 +88,6 @@ struct ContentView: View {
             }
             .padding()
         }
-        .fileExporter(
-            isPresented: $appModel.showSavePanel,
-            document: TextFile(initialText: appModel.contentToSave),
-            contentType: .plainText,
-            defaultFilename: "Untitled.txt"
-        ) { result in
-            switch result {
-            case .success(let url):
-                appModel.fileURL = url
-            case .failure(let error):
-                let errorMessage = "Error saving file: \(error.localizedDescription)"
-                print(errorMessage)
-                errorManager.errorMessage = errorMessage
-            }
-        }
         .sheet(isPresented: .constant(errorManager.errorMessage != nil), onDismiss: {
             errorManager.errorMessage = nil
         }) {
@@ -128,7 +96,7 @@ struct ContentView: View {
     }
     func sendToOllama() async {
         isBusy = true
-        let currentPrompt = "As AI assistant user, I need help with my text. First I'll tell you my request and then I'll tell you the text. Request is: \(command) And here is the text for you to edit as instructed: \(appModel.leftText)"
+        let currentPrompt = "As AI assistant user, I need help with my text. First I'll tell you my request and then I'll tell you the text. Request is: \(command) And here is the text for you to edit as instructed: \(document.initialText)"
         let fullPrompt = chatHistory + currentPrompt
         self.command = ""
         self.rightText = ""
@@ -256,5 +224,5 @@ struct OllamaResponse: Decodable {
 }
 
 #Preview {
-    ContentView()
+    ContentView(document: .constant(TextFile()))
 }
