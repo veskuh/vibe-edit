@@ -44,14 +44,18 @@ struct ContentView: View {
                 ToolbarItem(placement: .automatic) {
                     Button(action: {
                         document.initialText = self.rightText
+                        self.rightText = ""
                     }) {
-                        Text("Accept AI Text")
+                        Label("Accept AI Text", systemImage: "checkmark.circle")
                     }
+                    .disabled(rightText.isEmpty)
+                    .labelStyle(.titleAndIcon)
                 }
                 ToolbarItem(placement: .automatic) {
                     Toggle(isOn: $isDiffMode) {
-                        Text("Diff Mode")
+                        Label("Diff Mode", systemImage: "square.split.2x1")
                     }
+                    .labelStyle(.titleAndIcon)
                 }
             }
             HStack {
