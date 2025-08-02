@@ -12,6 +12,7 @@ struct VibeEditApp: App {
                 .environmentObject(appModel)
                 .environmentObject(errorManager)
         }
+        .defaultSize(width: 1000, height: 800)
         
         .commands {
             CommandGroup(after: .saveItem) {
