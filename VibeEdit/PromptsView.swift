@@ -70,11 +70,12 @@ struct AddPromptView: View {
                 TextField("Name", text: $name)
                 TextField("Prompt", text: $text)
             }
+            .padding()
             HStack {
+                Spacer()
                 Button("Cancel") {
                     dismiss()
                 }
-                Spacer()
                 Button("Save") {
                     let newPrompt = Prompt(name: name, text: text)
                     appModel.prompts.append(newPrompt)
@@ -84,7 +85,7 @@ struct AddPromptView: View {
             }
             .padding()
         }
-        .frame(minWidth: 400, minHeight: 200)
+        .frame(minWidth: 400, idealHeight: 200)
     }
 }
 
@@ -107,11 +108,12 @@ struct EditPromptView: View {
                 TextField("Name", text: $name)
                 TextField("Prompt", text: $text)
             }
+            .padding()
             HStack {
+                Spacer()
                 Button("Cancel") {
                     dismiss()
                 }
-                Spacer()
                 Button("Save") {
                     if let index = appModel.prompts.firstIndex(where: { $0.id == prompt.id }) {
                         appModel.prompts[index].name = name
@@ -123,6 +125,6 @@ struct EditPromptView: View {
             }
             .padding()
         }
-        .frame(minWidth: 400, minHeight: 200)
+        .frame(minWidth: 400, idealHeight: 200)
     }
 }

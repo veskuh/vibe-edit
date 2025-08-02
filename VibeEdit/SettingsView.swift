@@ -11,7 +11,7 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
-            Section(header: Text("Ollama Settings")) {
+            Section(header: Text("Ollama Settings").fontWeight(.bold)) {
                 HStack {
                     Picker("Ollama Model", selection: $ollamaModel) {
                         ForEach(ollamaModels) { model in
@@ -29,7 +29,7 @@ struct SettingsView: View {
                 }
                 TextField("Ollama Server Address", text: $ollamaServerAddress)
             }
-            Section(header: Text("Editor Appearance")) {
+            Section(header: Text("Editor Appearance").fontWeight(.bold).padding(.top)) {
                 Picker("Font", selection: $editorFontName) {
                     ForEach(AppModel.availableFontNames, id: \.self) { font in
                         Text(font).font(.custom(font, size: 14)).tag(font)
@@ -39,7 +39,7 @@ struct SettingsView: View {
                     Text("Font Size: \(Int(editorFontSize)) pt")
                 }
             }
-            Section(header: Text("Prompts")) {
+            Section(header: Text("Prompts").fontWeight(.bold).padding(.top)) {
                 PromptsView()
                     .environmentObject(appModel)
             }
