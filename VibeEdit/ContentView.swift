@@ -22,6 +22,7 @@ struct ContentView: View {
                     TextEditor(text: $document.initialText)
                         .font(.custom(appModel.editorFontName, size: CGFloat(appModel.editorFontSize)))
                         .frame(minWidth: 200, idealWidth: 400, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: .infinity)
+                        .overlay(document.initialText.isEmpty ? Text("Start writing or paste your text here...").foregroundColor(.gray) : nil)
                 }
                 VStack {
                     Text("AI Suggestion")
@@ -31,6 +32,7 @@ struct ContentView: View {
                         .font(.custom(appModel.editorFontName, size: CGFloat(appModel.editorFontSize)))
                         .frame(minWidth: 200, idealWidth: 400, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: .infinity)
                         .opacity(isDiffMode ? 0 : 1)
+                        .overlay(rightText.isEmpty && !isDiffMode ? Text("AI suggestions will appear here after you click Send.").foregroundColor(.gray) : nil)
                         .overlay(Group {
                             if isDiffMode {
                                 ScrollView {
@@ -82,7 +84,9 @@ struct ContentView: View {
                 
                 Text("Ask AI:")
                 TextField("Enter your command here", text: $command)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .textFieldStyle(.plain)
+                    .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
+                    .background(Capsule().fill(Color(nsColor: .textBackgroundColor)))
                     .focused($isCommandTextFieldFocused)
                     .onSubmit {
                         Task {
