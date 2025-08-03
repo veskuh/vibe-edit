@@ -19,8 +19,7 @@ struct ContentView: View {
                     Text("Your Draft")
                         .font(.headline)
                         .padding(.top, 5)
-                    TextEditor(text: $document.initialText)
-                        .font(.custom(appModel.editorFontName, size: CGFloat(appModel.editorFontSize)))
+                    MarkdownTextEditor(text: $document.initialText)
                         .frame(minWidth: 200, idealWidth: 400, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: .infinity)
                         .overlay(document.initialText.isEmpty ? Text("Start writing or paste your text here...").foregroundColor(.gray) : nil)
                 }
@@ -109,6 +108,7 @@ struct ContentView: View {
         }) {
             ErrorView(errorMessage: $errorManager.errorMessage)
         }
+        .background(.bar)
     }
     func sendToOllama() async {
         isBusy = true
