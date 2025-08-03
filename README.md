@@ -2,6 +2,8 @@
 
 VibeEdit is an AI-assisted text editor for macOS, designed to streamline your writing and editing workflow. It features a dual-pane interface for easy comparison and modification of text, integrated AI capabilities, and essential file management options.
 
+![](assets/vibe-edit.png)
+
 ## Features
 
 *   **AI-Assisted Editing**: Send text from the left pane to a local Ollama instance with a custom prompt for AI-driven modifications.
@@ -16,6 +18,7 @@ VibeEdit is an AI-assisted text editor for macOS, designed to streamline your wr
 *   **Busy Indicator**: A visual indicator in the toolbar shows when the AI is processing a request.
 *   **Prompt Management**: Save, edit, and delete frequently used AI prompts for quick access. Prompts can be selected from a menu next to the "Ask AI" field.
 *   **Keyboard Shortcuts**: Standard macOS keyboard shortcuts for file operations.
+*   **Markdown syntax highlighting**: Highlighting for most common Markdown syntax
 
 ## Dependencies
 
