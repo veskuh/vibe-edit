@@ -106,10 +106,26 @@ struct MarkdownTextEditor: NSViewRepresentable {
             }
             
             // Hugo Front Matter
-            let frontMatterRegex = try! NSRegularExpression(pattern: #"^---\n(.*?)\n---"#, options: [.anchorsMatchLines, .dotMatchesLineSeparators])
+            let frontMatterRegex = try! NSRegularExpression(pattern: #"^---\n(.*?)\n---"# , options: [.anchorsMatchLines, .dotMatchesLineSeparators])
             frontMatterRegex.enumerateMatches(in: textStorage.string, options: [], range: fullRange) { (match, _, _) in
                 if let matchRange = match?.range {
                     textStorage.addAttribute(.foregroundColor, value: NSColor.frontMatterColor, range: matchRange)
+                }
+            }
+            
+            // Blockquotes
+            let blockquoteRegex = try! NSRegularExpression(pattern: "^>.*$", options: .anchorsMatchLines)
+            blockquoteRegex.enumerateMatches(in: textStorage.string, options: [], range: fullRange) { (match, _, _) in
+                if let matchRange = match?.range {
+                    textStorage.addAttribute(.foregroundColor, value: NSColor.blockquoteColor, range: matchRange)
+                }
+            }
+            
+            // Fenced Code Blocks
+            let codeBlockRegex = try! NSRegularExpression(pattern: #"```[\s\S]*?```"#, options: [])
+            codeBlockRegex.enumerateMatches(in: textStorage.string, options: [], range: fullRange) { (match, _, _) in
+                if let matchRange = match?.range {
+                    textStorage.addAttribute(.foregroundColor, value: NSColor.codeBlockColor, range: matchRange)
                 }
             }
         }
@@ -123,4 +139,6 @@ extension NSColor {
     static let linkColor = NSColor.systemPurple
     static let imageLinkColor = NSColor.systemTeal
     static let frontMatterColor = NSColor.systemGray
+    static let blockquoteColor = NSColor.systemBrown
+    static let codeBlockColor = NSColor.systemRed
 }
