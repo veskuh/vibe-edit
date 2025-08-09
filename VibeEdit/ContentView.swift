@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var isBusy: Bool = false
     @State private var isDiffMode: Bool = false
     @FocusState private var isCommandTextFieldFocused: Bool
+    @State private var currentSelection: NSRange = NSRange(location: 0, length: 0) // New state for selection
 
     var body: some View {
         VStack {
@@ -19,7 +20,7 @@ struct ContentView: View {
                     Text("Your Draft")
                         .font(.headline)
                         .padding(.top, 5)
-                    MarkdownTextEditor(text: $document.initialText)
+                    MarkdownTextEditor(text: $document.initialText, selection: $currentSelection) // Pass selection binding
                         .frame(minWidth: 200, idealWidth: 400, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: .infinity)
                         .overlay(document.initialText.isEmpty ? Text("Start writing or paste your text here...").foregroundColor(.gray) : nil)
                 }
@@ -50,7 +51,26 @@ struct ContentView: View {
                         ProgressView()
                     }
                 }
-                ToolbarItem(placement: .automatic) {
+                // Markdown buttons group
+                ToolbarItemGroup(placement: .automatic) {
+                    Button(action: { applyMarkdown(markdown: "**", placeholder: "bold text") }) {
+                        Label("Bold", systemImage: "bold")
+                    }
+                    Button(action: { applyMarkdown(markdown: "[](", placeholder: "link text") }) {
+                        Label("URL", systemImage: "link")
+                    }
+                    Button(action: { applyMarkdown(markdown: "![](", placeholder: "image description") }) {
+                        Label("Image", systemImage: "photo")
+                    }
+                    Button(action: { applyMarkdown(markdown: "```\n", placeholder: "code\n") }) {
+                        Label("Code Block", systemImage: "curlybraces")
+                    }
+                    Button(action: { applyMarkdown(markdown: "> ", placeholder: "blockquote") }) {
+                        Label("Blockquote", systemImage: "text.quote")
+                    }
+                }
+                // Existing buttons group, placed at .primaryAction
+                ToolbarItemGroup(placement: .primaryAction) {
                     Button(action: {
                         document.initialText = self.rightText
                         self.rightText = ""
@@ -59,8 +79,7 @@ struct ContentView: View {
                     }
                     .disabled(rightText.isEmpty)
                     .labelStyle(.titleAndIcon)
-                }
-                ToolbarItem(placement: .automatic) {
+                    
                     Toggle(isOn: $isDiffMode) {
                         Label("Diff Mode", systemImage: "square.split.2x1")
                     }
@@ -110,6 +129,123 @@ struct ContentView: View {
         }
         .background(.bar)
     }
+    
+    // New applyMarkdown function
+    private func applyMarkdown(markdown: String, placeholder: String = "") {
+        let currentText = document.initialText as NSString
+        let selectedRange = currentSelection
+
+        if selectedRange.length > 0 {
+            // Text is selected, wrap it
+            let selectedText = currentText.substring(with: selectedRange)
+            var newText: String
+            var newLocation: Int
+            var newLength: Int
+
+            switch markdown {
+            case "[](": // URL
+                newText = "[" + selectedText + "]()"
+                newLocation = selectedRange.location + 3 + selectedText.count // After "[](" and selected text
+                newLength = 0
+            case "![](": // Image
+                newText = "![" + selectedText + "]()"
+                newLocation = selectedRange.location + 4 + selectedText.count // After "![](" and selected text
+                newLength = 0
+            case "```\n": // Code Block
+                newText = "```\n" + selectedText + "\n```"
+                newLocation = selectedRange.location + 4 // After "```\n"
+                newLength = selectedText.count
+            case "> ": // Blockquote
+                let needsNewlineBefore = selectedRange.location > 0 && !isAtBeginningOfLine(location: selectedRange.location, in: currentText as String)
+                let needsNewlineAfter = selectedRange.upperBound < currentText.length && !isAtEndOfLine(location: selectedRange.upperBound, in: currentText as String)
+                
+                var prefix = ""
+                if needsNewlineBefore {
+                    prefix = "\n"
+                }
+                
+                var suffix = ""
+                if needsNewlineAfter {
+                    suffix = "\n"
+                }
+                
+                let lines = selectedText.components(separatedBy: "\n")
+                let blockquotedLines = lines.map { "> " + $0 }.joined(separator: "\n")
+                
+                newText = prefix + blockquotedLines + suffix
+                newLocation = selectedRange.location + prefix.count
+                newLength = blockquotedLines.count
+                
+            default: // Bold
+                newText = markdown + selectedText + markdown
+                newLocation = selectedRange.location + markdown.count
+                newLength = selectedText.count
+            }
+            
+            document.initialText = currentText.replacingCharacters(in: selectedRange, with: newText)
+            currentSelection = NSRange(location: newLocation, length: newLength)
+
+        } else {
+            // No text selected, insert markdown at cursor
+            let newText: String
+            var newLocation: Int
+            var newLength: Int
+
+            switch markdown {
+            case "[](": // URL
+                newText = "[" + placeholder + "]()"
+                newLocation = selectedRange.location + 1 // After "["
+                newLength = placeholder.count
+            case "![](": // Image
+                newText = "![" + placeholder + "]()"
+                newLocation = selectedRange.location + 2 // After "!["
+                newLength = placeholder.count
+            case "```\n": // Code Block
+                newText = "```\n" + placeholder + "\n```"
+                newLocation = selectedRange.location + 4 // After "```\n"
+                newLength = placeholder.count
+            case "> ": // Blockquote
+                let currentString = document.initialText // Use document.initialText directly
+                var lineStartLocation = selectedRange.location
+                
+                // Find the beginning of the current line
+                while lineStartLocation > 0 && currentString.character(at: lineStartLocation - 1) != "\n" {
+                    lineStartLocation -= 1
+                }
+                
+                let newTextToInsert = "> "
+                
+                // Insert "> " at the beginning of the line
+                var updatedText = currentString
+                updatedText.insert(contentsOf: newTextToInsert, at: updatedText.index(updatedText.startIndex, offsetBy: lineStartLocation))
+                
+                document.initialText = updatedText
+                
+                // Adjust newLocation to be after the inserted "> "
+                let newCursorLocation = selectedRange.location + newTextToInsert.count
+                currentSelection = NSRange(location: newCursorLocation, length: 0)
+                return // Exit the function after handling this case
+            default: // Bold
+                newText = markdown + placeholder + markdown
+                newLocation = selectedRange.location + markdown.count
+                newLength = placeholder.count
+            }
+            
+            document.initialText = currentText.replacingCharacters(in: selectedRange, with: newText)
+            currentSelection = NSRange(location: newLocation, length: newLength)
+        }
+    }
+
+    private func isAtBeginningOfLine(location: Int, in text: String) -> Bool {
+        guard location > 0 else { return true }
+        return text.character(at: location - 1) == "\n"
+    }
+
+    private func isAtEndOfLine(location: Int, in text: String) -> Bool {
+        guard location < text.count else { return true }
+        return text.character(at: location) == "\n"
+    }
+    
     func sendToOllama() async {
         isBusy = true
         let currentPrompt = "As AI assistant user, I need help with my text. First I'll tell you my request and then I'll tell you the text. Request is: \(command) And here is the text for you to edit as instructed: \(document.initialText)"
@@ -241,4 +377,11 @@ struct OllamaResponse: Decodable {
 
 #Preview {
     ContentView(document: .constant(TextFile()))
+}
+
+extension String {
+    func character(at index: Int) -> Character? {
+        guard index >= 0 && index < count else { return nil }
+        return self[self.index(startIndex, offsetBy: index)]
+    }
 }

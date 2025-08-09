@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct MarkdownTextEditor: NSViewRepresentable {
-    @Binding var text: String // Re-enable binding
+    @Binding var text: String
+    @Binding var selection: NSRange // New binding for selection
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -11,16 +12,16 @@ struct MarkdownTextEditor: NSViewRepresentable {
         let scrollView = NSScrollView()
         let textView = NSTextView()
 
-        textView.delegate = context.coordinator // Delegate is re-enabled
+        textView.delegate = context.coordinator
         textView.font = .userFixedPitchFont(ofSize: 14)
-        textView.isRichText = true // Re-enable rich text
-        textView.isEditable = true // Re-enable editing
+        textView.isRichText = true
+        textView.isEditable = true
         textView.isSelectable = true
         textView.allowsUndo = true
         textView.drawsBackground = false
         
         textView.string = text
-        context.coordinator.applySyntaxHighlighting(for: textView) // Re-enable highlighting
+        context.coordinator.applySyntaxHighlighting(for: textView)
         
         scrollView.documentView = textView
         scrollView.hasVerticalScroller = true
@@ -40,7 +41,11 @@ struct MarkdownTextEditor: NSViewRepresentable {
             let selectedRange = textView.selectedRange
             textView.string = text
             textView.selectedRange = selectedRange
-            context.coordinator.applySyntaxHighlighting(for: textView) // Re-enable highlighting
+            context.coordinator.applySyntaxHighlighting(for: textView)
+        }
+        // Update selection from parent if it changes externally
+        if textView.selectedRange != selection {
+            textView.selectedRange = selection
         }
     }
 
@@ -54,7 +59,13 @@ struct MarkdownTextEditor: NSViewRepresentable {
         func textDidChange(_ notification: Notification) {
             guard let textView = notification.object as? NSTextView else { return }
             parent.text = textView.string
-            applySyntaxHighlighting(for: textView) // Re-enable highlighting
+            parent.selection = textView.selectedRange // Update selection on text change
+            applySyntaxHighlighting(for: textView)
+        }
+        
+        func textViewDidChangeSelection(_ notification: Notification) {
+            guard let textView = notification.object as? NSTextView else { return }
+            parent.selection = textView.selectedRange // Update selection on selection change
         }
         
         func applySyntaxHighlighting(for textView: NSTextView? = nil) {
