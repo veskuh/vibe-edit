@@ -60,18 +60,23 @@ struct ContentView: View {
                     Button(action: { applyMarkdown(markdown: "**", placeholder: "bold text") }) {
                         Label("Bold", systemImage: "bold")
                     }
+                    .help("Apply bold formatting")
                     Button(action: { applyMarkdown(markdown: "[](", placeholder: "link text") }) {
                         Label("URL", systemImage: "link")
                     }
+                    .help("Insert a URL link")
                     Button(action: { applyMarkdown(markdown: "![](", placeholder: "image description") }) {
                         Label("Image", systemImage: "photo")
                     }
+                    .help("Insert an image link")
                     Button(action: { applyMarkdown(markdown: "```\n", placeholder: "code\n") }) {
                         Label("Code Block", systemImage: "curlybraces")
                     }
+                    .help("Insert a code block")
                     Button(action: { applyMarkdown(markdown: "> ", placeholder: "blockquote") }) {
                         Label("Blockquote", systemImage: "text.quote")
                     }
+                    .help("Apply blockquote formatting")
                     
                     // Snippets Menu
                     Menu {
@@ -87,6 +92,7 @@ struct ContentView: View {
                     } label: {
                         Label("Snippets", systemImage: "text.badge.plus")
                     }
+                    .help("Manage and insert text snippets")
                 }
                 // Existing buttons group, placed at .primaryAction
                 ToolbarItemGroup(placement: .primaryAction) {
@@ -96,12 +102,14 @@ struct ContentView: View {
                     }) {
                         Label("Accept AI Text", systemImage: "checkmark.circle")
                     }
+                    .help("Accept AI generated text into your draft")
                     .disabled(rightText.isEmpty)
                     .labelStyle(.titleAndIcon)
                     
                     Toggle(isOn: $isDiffMode) {
                         Label("Diff Mode", systemImage: "square.split.2x1")
                     }
+                    .help("Toggle diff view for changes")
                     .labelStyle(.titleAndIcon)
                 }
             }
