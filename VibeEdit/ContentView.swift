@@ -1,17 +1,21 @@
 import SwiftUI
 import UniformTypeIdentifiers
+import Foundation
+import Combine
 
 struct ContentView: View {
     @Binding var document: TextFile
     @EnvironmentObject var appModel: AppModel
     @EnvironmentObject var errorManager: ErrorManager
+    @EnvironmentObject var snippetsManager: SnippetsManager // Added
     @State private var rightText: String = ""
     @State private var command: String = ""
     @State private var chatHistory: String = ""
     @State private var isBusy: Bool = false
     @State private var isDiffMode: Bool = false
     @FocusState private var isCommandTextFieldFocused: Bool
-    @State private var currentSelection: NSRange = NSRange(location: 0, length: 0) // New state for selection
+        @State private var currentSelection: NSRange = NSRange(location: 0, length: 0) // New state for selection
+        @State private var showingSnippetEditor = false // Added
 
     var body: some View {
         VStack {
@@ -67,6 +71,21 @@ struct ContentView: View {
                     }
                     Button(action: { applyMarkdown(markdown: "> ", placeholder: "blockquote") }) {
                         Label("Blockquote", systemImage: "text.quote")
+                    }
+                    
+                    // Snippets Menu
+                    Menu {
+                        ForEach(snippetsManager.snippets, id: \.id) { snippet in
+                            Button(snippet.name) {
+                                insertSnippet(snippet.content)
+                            }
+                        }
+                        Divider()
+                        Button("Manage Snippets...") {
+                            showingSnippetEditor = true
+                        }
+                    } label: {
+                        Label("Snippets", systemImage: "text.badge.plus")
                     }
                 }
                 // Existing buttons group, placed at .primaryAction
@@ -126,6 +145,10 @@ struct ContentView: View {
             errorManager.errorMessage = nil
         }) {
             ErrorView(errorMessage: $errorManager.errorMessage)
+        }
+        .sheet(isPresented: $showingSnippetEditor) {
+            SnippetEditorView()
+                .environmentObject(snippetsManager) // Pass the environment object
         }
         .background(.bar)
     }
@@ -234,6 +257,16 @@ struct ContentView: View {
             document.initialText = currentText.replacingCharacters(in: selectedRange, with: newText)
             currentSelection = NSRange(location: newLocation, length: newLength)
         }
+    }
+    
+    private func insertSnippet(_ snippetContent: String) {
+        let currentText = document.initialText as NSString
+        let selectedRange = currentSelection
+        
+        let newText = snippetContent
+        
+        document.initialText = currentText.replacingCharacters(in: selectedRange, with: newText)
+        currentSelection = NSRange(location: selectedRange.location + newText.count, length: 0)
     }
 
     private func isAtBeginningOfLine(location: Int, in text: String) -> Bool {
@@ -375,8 +408,97 @@ struct OllamaResponse: Decodable {
     let response: String
 }
 
+struct SnippetEditorView: View {
+    @EnvironmentObject var snippetsManager: SnippetsManager
+    @Environment(\.dismiss) var dismiss // For dismissing the sheet
+
+    @State private var showingAddSnippetSheet = false
+    @State private var newSnippetName: String = ""
+    @State private var newSnippetContent: String = ""
+    @State private var editingSnippet: Snippet? = nil
+
+    var body: some View {
+        VStack {
+            Text("Manage Snippets")
+                .font(.headline)
+                .padding()
+
+            List {
+                ForEach(snippetsManager.snippets) { snippet in
+                    HStack {
+                        Text(snippet.name)
+                        Spacer()
+                        Button("Edit") {
+                            editingSnippet = snippet
+                            newSnippetName = snippet.name
+                            newSnippetContent = snippet.content
+                            showingAddSnippetSheet = true
+                        }
+                    }
+                }
+                .onDelete(perform: deleteSnippet)
+            }
+            .listStyle(.inset)
+
+            HStack {
+                Button("Add Snippet") {
+                    editingSnippet = nil // Clear any previous editing state
+                    newSnippetName = ""
+                    newSnippetContent = ""
+                    showingAddSnippetSheet = true
+                }
+                Spacer()
+                Button("Done") {
+                    dismiss()
+                }
+            }
+            .padding()
+        }
+        .frame(minWidth: 400, minHeight: 300)
+        .sheet(isPresented: $showingAddSnippetSheet) {
+            VStack {
+                Text(editingSnippet == nil ? "Add New Snippet" : "Edit Snippet")
+                    .font(.title2)
+                    .padding()
+
+                TextField("Snippet Name", text: $newSnippetName)
+                    .textFieldStyle(.roundedBorder)
+                    .padding(.horizontal)
+
+                TextEditor(text: $newSnippetContent)
+                    .frame(minHeight: 100)
+                    .border(Color.gray.opacity(0.2), width: 1)
+                    .padding(.horizontal)
+
+                HStack {
+                    Button("Cancel") {
+                        showingAddSnippetSheet = false
+                    }
+                    Spacer()
+                    Button(editingSnippet == nil ? "Add" : "Save") {
+                        if let editingSnippet = editingSnippet {
+                            snippetsManager.updateSnippet(id: editingSnippet.id, newName: newSnippetName, newContent: newSnippetContent)
+                        } else {
+                            snippetsManager.addSnippet(name: newSnippetName, content: newSnippetContent)
+                        }
+                        showingAddSnippetSheet = false
+                    }
+                    .disabled(newSnippetName.isEmpty || newSnippetContent.isEmpty)
+                }
+                .padding()
+            }
+            .frame(minWidth: 300, minHeight: 250)
+        }
+    }
+
+    private func deleteSnippet(at offsets: IndexSet) {
+        snippetsManager.delete(at: offsets)
+    }
+}
+
 #Preview {
     ContentView(document: .constant(TextFile()))
+        .environmentObject(SnippetsManager()) // Provide SnippetsManager for preview
 }
 
 extension String {

@@ -19,6 +19,16 @@ VibeEdit is an AI-assisted text editor for macOS, designed to streamline your wr
 *   **Prompt Management**: Save, edit, and delete frequently used AI prompts for quick access. Prompts can be selected from a menu next to the "Ask AI" field.
 *   **Keyboard Shortcuts**: Standard macOS keyboard shortcuts for file operations.
 *   **Markdown syntax highlighting**: Highlighting for most common Markdown syntax
+*   **Blockquote Markdown**: Easily format text as blockquotes.
+    *   If text is selected, it will be blockquoted, with newlines added before and after the selection if it doesn't start/end at a line boundary.
+    *   If no text is selected, `> ` will be inserted at the beginning of the current line, and the cursor will be positioned after it.
+*   **Snippets Menu**: Access frequently used text snippets from a dedicated menu in the toolbar.
+    *   Select a snippet to insert its full content at the current cursor position.
+*   **Snippet Editor**: Manage your snippets through a dedicated editor window.
+    *   Add new snippets with a short name and full content.
+    *   Edit existing snippets.
+    *   Remove unwanted snippets.
+    *   Snippets are persisted across application launches.
 
 ## Dependencies
 
